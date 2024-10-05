@@ -62,19 +62,19 @@ const vedioDetails = async (vedioId) => {
     vedioDetailsReceive(data.video.authors);
 };
 
-const vedioDetailsReceive = (data)=>{
-data.forEach(item=>{
-    console.log(item);
-    const modalContent = document.getElementById('modal-content');
-    modalContent.innerHTML=
-    `
+const vedioDetailsReceive = (data) => {
+    data.forEach(item => {
+        console.log(item);
+        const modalContent = document.getElementById('modal-content');
+        modalContent.innerHTML =
+            `
     <img class="object-cover" src="${item.profile_picture}"/>
     <p class="font-bold text-xl">
     ${item.profile_name}
     </p>
     `;
-    document.getElementById('main-click-btn').click()
-})
+        document.getElementById('main-click-btn').click()
+    })
 
 }
 
