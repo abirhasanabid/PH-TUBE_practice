@@ -11,23 +11,33 @@ const openUpBtn = (categories) => {
     categories.forEach(item => {
         const div = document.createElement('div');
         div.innerHTML = `
-        <button onclick="clicableBtn(${item?.category_id})" class="btn">
+        <button id="for-get-btn-${item?.category_id}" onclick="clicableBtn(${item?.category_id})" class="btn get-class">
         ${item.category}
         </button>
         `;
         btnDiv.append(div)
     })
-
 };
 
 //clic-able Btn
 const clicableBtn = (id) => {
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
         .then(res => res.json())
-        .then(data => secondCardCalling(data.category))
+        .then(data => {
+            removeClass()
+            const gettingBtnId = document.getElementById(`for-get-btn-${id}`);
+            gettingBtnId.classList.add('btn-style')
+            secondCardCalling(data.category)
+        })
         .catch(error => console.error(error))
 }
 
+const removeClass = ()=>{
+    const getClass = document.getElementsByClassName('get-class');
+    for (const element of getClass) {
+        element.classList.remove('btn-style')
+    }
+}
 
 const cardCalling = () => {
     fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
