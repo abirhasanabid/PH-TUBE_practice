@@ -32,7 +32,8 @@ const clicableBtn = (id) => {
         .catch(error => console.error(error))
 }
 
-const removeClass = ()=>{
+// removeing btn style
+const removeClass = () => {
     const getClass = document.getElementsByClassName('get-class');
     for (const element of getClass) {
         element.classList.remove('btn-style')
@@ -54,12 +55,35 @@ const postDate = (time) => {
     return `${hour} hour ${min} min ago`
 };
 
+// details bnt
+const vedioDetails = async (vedioId) => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/phero-tube/video/${vedioId}`);
+    const data = await res.json();
+    vedioDetailsReceive(data.video.authors);
+};
+
+const vedioDetailsReceive = (data)=>{
+data.forEach(item=>{
+    console.log(item);
+    const modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML=
+    `
+    <img class="object-cover" src="${item.profile_picture}"/>
+    <p class="font-bold text-xl">
+    ${item.profile_name}
+    </p>
+    `;
+    document.getElementById('main-click-btn').click()
+})
+
+}
+
 const secondCardCalling = (videos) => {
     const cardDiv = document.getElementById('cardDiv');
     cardDiv.innerHTML = '';
-   if (videos.length==0) {
-    cardDiv.classList.remove('grid');
-    cardDiv.innerHTML=`
+    if (videos.length == 0) {
+        cardDiv.classList.remove('grid');
+        cardDiv.innerHTML = `
     
     <div class="h-[300px] gap-5 flex flex-col justify-center items-center text-center">
            <img src="assets/Icon.png" alt="">
@@ -69,11 +93,10 @@ const secondCardCalling = (videos) => {
         </div>
 
     `;
-    return;
-   }else{
-    cardDiv.classList.add('grid')
-   }
-
+        return;
+    } else {
+        cardDiv.classList.add('grid')
+    }
     videos.forEach(item => {
         const div = document.createElement('div');
         div.classList = 'card card-compact';
@@ -108,6 +131,9 @@ const secondCardCalling = (videos) => {
        ${item.others.views} views
        </p>
     </div>
+    <button onclick="vedioDetails('${item.video_id}')" class="btn btn-sm text-gray-800 btn-error">
+    details
+    <button>
   </div>
         `;
         cardDiv.append(div)
